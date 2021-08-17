@@ -32,7 +32,7 @@ public class MusicManager : MonoBehaviour
     int currentMusicIndex;
     bool isManagerCreated;
     bool isBusy;
-    AudioClip loadedClip;
+    AudioClip loadedClip, tempClip;
     static string musicFolderPath = "Audio/Music/";
     DirectoryInfo directory;
 
@@ -44,6 +44,7 @@ public class MusicManager : MonoBehaviour
         InitialSetup();
         GetMusicResourcesList();
         ShuffleMusicOrder();
+        LoadNextClipToMemory();
         StartMusic();
     }
 
@@ -202,6 +203,7 @@ public class MusicManager : MonoBehaviour
             }
             else
             {
+                StartCoroutine(LoadNextClipToMemoryAsync());
                 StartMusic();
             }
         }
@@ -242,11 +244,39 @@ public class MusicManager : MonoBehaviour
     /// <param name="_startNext">If true, starts the next song, if false, does nothing after fading off</param>
     void FadeOffMusic(bool _startNext)
     {   
+        if (tempClip != null)
+        {
+            loadedClip = tempClip;
+        }
         StartCoroutine(Fade(audioSource, fadeDuration, 0));                                                         // fade off
         if (_startNext)                                                                                             // if true, start next song
         {
+            StartCoroutine(LoadNextClipToMemoryAsync());
             Invoke("StartMusic", fadeDuration);
         }
+    }
+
+    /// <summary>
+    /// Loads the next music asynchronously, only used after the music has already started;
+    /// </summary>
+    IEnumerator LoadNextClipToMemoryAsync()
+    {
+        int randomClipIndex = randomMusicOrder[currentMusicIndex];                                                  // get index from random list
+        ResourceRequest resourcesRequest = Resources.LoadAsync(musicFolderPath + musicList[randomClipIndex], typeof(AudioClip)); // load next clip into memory async
+        while (!resourcesRequest.isDone)
+        {
+            yield return null;
+        }
+        tempClip = resourcesRequest.asset as AudioClip;
+    }
+
+    /// <summary>
+    /// Loads the next music synchronously, only used when the game is starting;
+    /// </summary>
+    void LoadNextClipToMemory()
+    {
+        int randomClipIndex = randomMusicOrder[currentMusicIndex];                                                  // get index from random list
+        tempClip = (AudioClip)Resources.Load(musicFolderPath + musicList[randomClipIndex], typeof(AudioClip));      // load next clip into memory
     }
 
     /// <summary>
@@ -258,12 +288,10 @@ public class MusicManager : MonoBehaviour
         {
             Resources.UnloadAsset(loadedClip);
         }
-        int randomClipIndex = randomMusicOrder[currentMusicIndex];                                                  // get index from random list
-        loadedClip = (AudioClip)Resources.Load(musicFolderPath + musicList[randomClipIndex], typeof(AudioClip));    // load next clip into memory
-        audioSource.clip = loadedClip;                                                                              // set clip to audio source
+        audioSource.clip = tempClip;                                                                              // set clip to audio source
         audioSource.Play();                                                                                         // play music (starts muted)
         StartCoroutine(Fade(audioSource, fadeDuration, maxVolume));                                                 // slowly fade in
-        Invoke("PlayNextSong", loadedClip.length - fadeDuration);                                                   // Invoke next song when this one finishes
+        Invoke("PlayNextSong", tempClip.length - fadeDuration);                                                   // Invoke next song when this one finishes
         isBusy = false;
     }
 }
