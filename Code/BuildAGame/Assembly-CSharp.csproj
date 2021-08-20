@@ -70,6 +70,9 @@
     <Compile Include="Assets\Scripts\JourneyManager.cs" />
     <Compile Include="Assets\Scripts\TestScripts\OutcomeAbstractTester.cs" />
     <Compile Include="Assets\Scripts\Scriptables\AbstractRandomEventScriptable.cs" />
+    <Compile Include="Assets\Scripts\Experimental\SpriteReTexture.cs" />
+    <Compile Include="Assets\Scripts\Experimental\AudioChaotic.cs" />
+    <Compile Include="Assets\Scripts\Experimental\SpriteMoveChaotic.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\RandomHelper\Meta.Numerics-4.1.4\Meta.Numerics.dll" />
