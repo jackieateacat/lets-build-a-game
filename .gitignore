@@ -6,8 +6,8 @@ Sound
 UI_UX
 Writing
 Code/BuildAGame/.vs
-Code/BuildAGame/Library/
-Code/BuildAGame/Logs/
+Code/BuildAGame/Library/*
+Code/BuildAGame/Logs/*
 Code/BuildAGame/Packages
 Code/BuildAGame/UserSettings
 Code/BuildAGame/obj/Debug
