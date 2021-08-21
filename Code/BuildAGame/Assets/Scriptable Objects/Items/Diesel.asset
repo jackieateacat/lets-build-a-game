@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e45e96219b902c240a04c055e20f5983, type: 3}
+  m_Name: Diesel
+  m_EditorClassIdentifier: 
+  itemType: 0
+  itemName: Diesel
+  description: Fresh diesel! So delicious!
+  weight: 10
+  maxQuantity: 50
+  icon: {fileID: 21300000, guid: 8c8a8b2ea0984e740b64fc7b79fd1b11, type: 3}

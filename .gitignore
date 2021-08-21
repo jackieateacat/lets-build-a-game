@@ -14,3 +14,4 @@ Code/BuildAGame/obj/Debug**
 .vsconfig
 Assembly-CSharp.csproj
 BuildAGame.sln
+/Code/BuildAGame/Temp
