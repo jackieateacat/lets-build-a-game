@@ -11,6 +11,6 @@ Code/BuildAGame/Logs**
 Code/BuildAGame/Packages**
 Code/BuildAGame/UserSettings**
 Code/BuildAGame/obj/Debug**
-.vsconfig**
-Assembly-CSharp.csproj**
-BuildAGame.sln**
+.vsconfig
+Assembly-CSharp.csproj
+BuildAGame.sln
