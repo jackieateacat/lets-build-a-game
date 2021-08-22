@@ -18,6 +18,9 @@ public class MapProgress : MonoBehaviour
     [Tooltip("A prefab for map points")]
     [SerializeField] private GameObject mapPointImagePrefab;
 
+    [Tooltip("Reference to the selected point UI menu")]
+    [SerializeField] private SelectedPointUIMenu selectedPointUIMenu;
+
     private void Awake()
     {
         // Uncomment out below to automatically show map progress when the OverworldMap canvas is enabled
@@ -31,21 +34,26 @@ public class MapProgress : MonoBehaviour
     public void ShowMapProgress()
     {
         Debug.Log("ShowMapProgress called");
-        
+
         // Instantiate each progress sprite as UI image
         foreach (MapPointScriptable entry in mapPointsReached)
         {
-            GameObject newObject = Instantiate(mapPointImagePrefab, Vector3.zero, Quaternion.identity, mapPointsRoot);
-            newObject.transform.localPosition = entry.mapPointPosition;
-            newObject.GetComponent<Image>().sprite = entry.mapProgressImage;
+            UIDefaultButtonScript newObject = Instantiate(mapPointImagePrefab, Vector3.zero, Quaternion.identity, mapPointsRoot).GetComponent<UIDefaultButtonScript>();
+            newObject.SetPointUIMenu(selectedPointUIMenu); // Setting the reference of the menu for for this point
+            newObject.SetMapPointScriptable(entry);  // Setting the information this point
+            newObject.transform.localPosition = entry.mapPointPosition; // Setting point in correct position
+            newObject.GetComponent<Image>().sprite = entry.mapProgressImage; // Setting point with REACHED image
 
             foreach (MapPointScriptable nextPoint in entry.followingMapPoint) // For each next point in the points reached
             {
                 if (!mapPointsReached.Contains(nextPoint)) // Check if it was not reached before
                 {
-                    GameObject newNextPoint = Instantiate(mapPointImagePrefab, Vector3.zero, Quaternion.identity, mapPointsRoot); // display in the not-reached version
+                    UIDefaultButtonScript newNextPoint = Instantiate(mapPointImagePrefab, Vector3.zero, Quaternion.identity, mapPointsRoot).GetComponent<UIDefaultButtonScript>(); // display in the not-reached version
                     newNextPoint.transform.localPosition = nextPoint.mapPointPosition;
+                    newNextPoint.SetPointUIMenu(selectedPointUIMenu);
+                    newNextPoint.SetMapPointScriptable(nextPoint);
                     //newObject.GetComponent<Image>().sprite = nextPoint.mapProgressImage; // once we get all the images to work with, we can start replacing the sprites
+                    //for now it loads the UNREACHED placeholder image
                 }
             }
         }

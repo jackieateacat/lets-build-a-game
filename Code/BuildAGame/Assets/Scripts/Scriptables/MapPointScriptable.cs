@@ -31,6 +31,9 @@ public class MapPointScriptable : OutcomeTypeAbstractScriptable
     [Tooltip("The position where this point should be initialized.")]
     public Vector2 mapPointPosition;
 
+    [Tooltip("The audio to be played on point selected")]
+    public RandomSoundPlayEvent soundPlayEvent;
+
 
     private void OnEnable()
     {
